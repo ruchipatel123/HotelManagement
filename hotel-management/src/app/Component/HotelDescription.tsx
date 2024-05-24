@@ -5,7 +5,7 @@ import BookHotel from './BookHotel';
 
 const HotelDescription = () => {
   return (
-    <div className="max-w-screen-xl mx-auto py-5">
+    <div className="max-w-screen-xl mx-auto py-5 detail">
       <div className="md:grid md:grid-cols-12 gap-10 px-3">
         <div className="md:col-span-8 md:w-full">
           <h2 className="font-bold text-left text-lg md:text-2xl">
