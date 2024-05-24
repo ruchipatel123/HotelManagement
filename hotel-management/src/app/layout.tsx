@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "./Component/Header";
 import Footer from "./Component/Footer";
 import Hero from "./Component/Hero";
-import './fontawesome';
 // import '@fortawesome/fontawesome-svg-core/styles.css'
 
 const inter = Inter({ subsets: ["latin"] });
