@@ -4,10 +4,21 @@ import React, { useEffect, useState } from 'react';
 import { fetchHotels } from '../../../sanity/sanity.utils';
 import Link from 'next/link';
 
-const RoomListing = () => {
-  const [hotels, setHotels] = useState([]);
-  const [error, setError] = useState(null);
+interface Hotel {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  location: string;
+  rating: number;
+  coverImage?: {
+    url: string;
+  };
+}
 
+const RoomListing = () => {
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [error, setError] = useState<Error | null>(null);
   useEffect(() => {
     const getHotels = async () => {
       try {
@@ -15,7 +26,7 @@ const RoomListing = () => {
         setHotels(data);
       } catch (error) {
         console.error('Error fetching hotels:', error); // Add this line
-        setError(error);
+        setError(error as Error);
       }
     };
 

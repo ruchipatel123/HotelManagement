@@ -4,18 +4,39 @@ import React, { useEffect, useState } from "react";
 
 import { fetchBanner } from "../../../sanity/sanity.utils";
 
+interface Image {
+  url: string;
+}
+
+interface Button {
+  text: string;
+  url: string;
+  href:string;
+}
+
+interface Banner {
+  tag: string;
+  title: string;
+  description: string;
+  button?: Button;
+  images?: Image[];
+}
+
 const Hero = () => {
-  const [banner, setBnner] = useState([]);
+  const [banner, setBanner] = useState<Banner | null>(null);
 
   useEffect(() => {
     const getBanner = async () => {
       const data = await fetchBanner();
-      setBnner(data);
+      setBanner(data);
       console.log(banner);
     };
 
     getBanner();
   }, []);
+  if (!banner) {
+    return <div>Loading...</div>;
+  }
 
   const images = banner.images || [];
 
@@ -39,13 +60,13 @@ const Hero = () => {
                 </p>
               </div>
               <div className="flex items-center">
-                {banner.button && (
-                  <button
+              {banner.button && (
+                  <a
                     href={banner.button.url}
                     className="bg-sky-400a mr-6 inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-lime-400 to-sky-400 px-8 font-medium tracking-wide text-white shadow-lg shadow-sky-300 outline-none transition duration-200 hover:scale-110 hover:bg-sky-500 focus:ring"
                   >
                     {banner.button.text}
-                  </button>
+                  </a>
                 )}
               </div>
             </div>

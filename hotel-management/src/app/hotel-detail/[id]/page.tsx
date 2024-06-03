@@ -1,31 +1,67 @@
-// pages/hotel/[id].js
 "use client";
-
-// pages/hotel/[id].js
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { fetchHotelById } from '../../../../sanity/sanity.utils';
 
+interface Amenity {
+  _key: string;
+  icon: string;
+  amenity: string;
+}
+
+interface Image {
+  url?: string;
+  file?: {
+    asset?: {
+      url: string;
+    };
+  };
+}
+
+interface Review {
+  _id: string;
+  reviewText: string;
+  reviewerName: string;
+}
+
+interface Hotel {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  discount?: number;
+  images: Image[];
+  coverImage?: Image;
+  type: string;
+  specialNote?: string;
+  dimension?: string;
+  numberOfBeds: number;
+  offeredAmenities: Amenity[];
+  isBooked: boolean;
+  isFeatured: boolean;
+  reviews: Review[];
+}
+
+
 const HotelDetailPage = () => {
   const router = useRouter();
-  // const { id } = router.query;
   const { id } = useParams();
 
-  const [hotel, setHotel] = useState(null);
+  const [hotel, setHotel] = useState<Hotel | null>(null);
 
   useEffect(() => {
-    const fetchHotel = async () => {
+    const fetchHotel = async (hotelId: string) => {
       try {
-        const fetchedHotel = await fetchHotelById(id);
+        const fetchedHotel = await fetchHotelById(hotelId);
         setHotel(fetchedHotel);
       } catch (error) {
         console.error('Error fetching hotel:', error);
       }
     };
 
-    if (id) {
-      fetchHotel();
+    if (typeof id === 'string') {
+      fetchHotel(id);
     }
   }, [id]);
 
@@ -61,7 +97,7 @@ const HotelDetailPage = () => {
       <img src={coverImage?.url || coverImage?.file?.asset?.url} alt={name} />
       <p>{description}</p>
       <p>Price: ${price}</p>
-      {discount > 0 && <p>Discount: {discount}%</p>}
+      {discount !== undefined && <p>Discount: {discount}%</p>}
       <p>Room Type: {type}</p>
       <p>Dimension: {dimension}</p>
       <p>Number of Beds: {numberOfBeds}</p>

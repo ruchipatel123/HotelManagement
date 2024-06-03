@@ -4,9 +4,29 @@ import React, { useEffect, useState } from 'react';
 import { fetchHotels } from '../../../sanity/sanity.utils';
 import Link from 'next/link';
 
+interface Amenity {
+    _key: string;
+    icon: string;
+    amenity: string;
+  }
+  
+  interface Hotel {
+    _id: string;
+    name: string;
+    description: string;
+    price: number;
+    location: string;
+    rating: number;
+    coverImage: {
+      url: string;
+    };
+    offeredAmenities: Amenity[];
+  }
+
 const HotelCard = () => {
-    const [hotels, setHotels] = useState([]);
-    const [error, setError] = useState(null);
+    const [hotels, setHotels] = useState<Hotel[]>([]);
+    const [error, setError] = useState<Error | null>(null);
+
 
     useEffect(() => {
         const getHotels = async () => {
@@ -15,7 +35,7 @@ const HotelCard = () => {
                 setHotels(data);
             } catch (error) {
                 console.error('Error fetching hotels:', error); // Log error to console
-                setError(error);
+                setError(error as Error);
             }
         };
 
@@ -29,7 +49,7 @@ const HotelCard = () => {
     return (
         <>
             {hotels.map((hotel) => (
-                <div key={hotel.id} className="w-full shadow-lg max-w-2xl bg-white sm:flex mb-10">
+                <div key={hotel._id}  className="w-full shadow-lg max-w-2xl bg-white sm:flex mb-10">
                     <div
                         className="w-full sm:w-1/4 hotel-cover bg-center bg-cover border relative h-48 sm:h-auto shadow-inner"
                         style={{ backgroundImage: `url(${hotel.coverImage?.url})` }}
