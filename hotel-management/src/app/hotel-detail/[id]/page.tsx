@@ -80,7 +80,7 @@ const HotelDetailPage = () => {
       <h2>Gallery</h2>
       <div className="gallery">
         {images.map((image, index) => (
-          <img key={index} src={image.url} alt={`Image ${index + 1}`} />
+          <img key={index} src={image.url || image.file?.asset?.url} alt={`Image ${index + 1}`} />
         ))}
       </div>
       <h2>Reviews</h2>

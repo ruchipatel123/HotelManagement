@@ -41,7 +41,7 @@ export const fetchHotels = async () => {
 // };
 
 
-export const fetchHotelById = async (id) => {
+export const fetchHotelById = async (id: string) => {
   const query = `*[_type == "hotelRoom" && _id == $id][0]{
     name,
     description,
