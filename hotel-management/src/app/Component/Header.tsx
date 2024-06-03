@@ -4,8 +4,12 @@ import React, { useEffect, useState } from "react";
 import { getNavBar } from "../../../sanity/sanity.utils";
 import Link from "next/link";
 
+interface NavbarItem {
+  title: string;
+  link: string;
+}
 const Header = () => {
-  const [navbar, setNavbar] = useState([]);
+  const [navbar, setNavbar] = useState<NavbarItem[]>([]);
 
   useEffect(() => {
     const fetchNavBar = async () => {
