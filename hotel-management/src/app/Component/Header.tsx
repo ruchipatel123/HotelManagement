@@ -1,11 +1,26 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { getNavBar } from "../../../sanity/sanity.utils";
+import Link from "next/link";
 
 const Header = () => {
+  const [navbar, setNavbar] = useState([]);
+
+  useEffect(() => {
+    const fetchNavBar = async () => {
+      const navbarData = await getNavBar();
+      setNavbar(navbarData);
+    };
+
+    fetchNavBar();
+  }, []);
+
   return (
     <div>
       <div className="container mx-auto">
         <div className="text-slate-700 relative flex max-w-screen-xl flex-col overflow-hidden px-4 py-4 md:mx-auto md:flex-row md:items-center">
-          <h3 className="flex cursor-pointer items-center whitespace-nowrap text-2xl font-black">
+          <Link href="/" className="flex cursor-pointer items-center whitespace-nowrap text-2xl font-black">
             <span className="mr-2 text-4xl text-cyan-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +38,7 @@ const Header = () => {
               </svg>
             </span>
             BookMyHotel
-          </h3>
+          </Link>
           <input type="checkbox" className="peer hidden" id="navbar-open" />
           <label
             className="absolute top-5 right-7 cursor-pointer md:hidden"
@@ -35,26 +50,22 @@ const Header = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              stroke-width="2"
+              strokeWidth="2"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
           </label>
           <div className="peer-checked:mt-8 peer-checked:max-h-56 flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all md:ml-24 md:max-h-full md:flex-row md:items-start">
             <ul className="flex flex-col items-center space-y-2 md:ml-auto md:flex-row md:space-y-0">
-              <li className="font-bold md:mr-12">
-                <a href="#">Home</a>
-              </li>
-              <li className="md:mr-12">
-                <a href="#">Hotel</a>
-              </li>
-              <li className="md:mr-12">
-                <a href="#">Contact</a>
-              </li>
+              {navbar.map((item) => (
+                <li key={item.title} className="font-bold md:mr-12">
+                  <Link href={item.link}>{item.title}</Link>
+                </li>
+              ))}
               <li className="md:mr-12">
                 <button className="rounded-full border-2 border-cyan-500 px-6 py-1 text-cyan-600 transition-colors hover:bg-cyan-500 hover:text-white">
                   Login

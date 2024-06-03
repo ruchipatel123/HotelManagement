@@ -12,10 +12,7 @@ const hotel = () => {
              </div>
              <div className='w-2/3 pl-10'>
                 <HotelCard/>
-                <HotelCard/>
-                <HotelCard/>
-                <HotelCard/>
-
+               
              </div>
          </div>
         </div>
